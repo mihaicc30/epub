@@ -94,14 +94,10 @@ export default function BotNav({ state, descriptors, navigation }) {
 }
 
 const BottomMenuItem = ({ pathName, isCurrent }) => {
+  const { cart } = useContext(AppContext);
+
   return (
-    <View
-      style={{
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <View className={`relative h-[100%] items-center justify-center`}>
       <Text
         style={{
           textShadowColor: "#000000aa",
@@ -114,6 +110,18 @@ const BottomMenuItem = ({ pathName, isCurrent }) => {
       >
         {pathName}
       </Text>
+      {pathName === "cart" && (
+        <Text
+          style={{
+            textShadowColor: "#000000aa",
+            textShadowOffset: { width: 0.6, height: 0.8 },
+            textShadowRadius: 0.1,
+          }}
+          className={`absolute top-3 text-xs`}
+        >
+          {cart.reduce((total, item) => total + item.qty, 0)}
+        </Text>
+      )}
     </View>
   );
 };

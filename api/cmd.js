@@ -22,6 +22,6 @@ export const query = async (path, data) => {
     body: JSON.stringify({ ...data }),
   });
   const response = await query.json();
-  console.log("🚀 ~ query ~ response:", response);
+  // console.log("🚀 ~ query ~ response:", response);
   return response;
 };

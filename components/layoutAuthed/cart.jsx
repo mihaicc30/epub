@@ -35,7 +35,7 @@ export default function Cart() {
       <Suspense fallback={"Loading..."}>
         <Text className="pl-2 text-lg font-bold">
           {/* to put a spinner instead */}
-          Cart ({cart.length || " 0 "})
+          Cart ({cart.reduce((total, item) => total + item.qty, 0) || " 0 "})
         </Text>
 
         <TouchableOpacity onPress={handleDeleteCart}>

@@ -86,8 +86,18 @@ export default function App() {
 }
 
 const AppContainer = () => {
-  const { user, supplier, step, all, favs, cart, setAll, setFavs, setCart } =
-    useContext(AppContext);
+  const {
+    user,
+    supplier,
+    step,
+    all,
+    favs,
+    cart,
+    setAll,
+    setFavs,
+    setCart,
+    timer,
+  } = useContext(AppContext);
 
   useEffect(() => {
     if (!user || !supplier) return;
@@ -102,6 +112,38 @@ const AppContainer = () => {
       .query("grabbasket", { sup: supplier._id, user: user._id })
       .then((res) => setCart(res));
   }, [user, supplier]);
+
+  useEffect(() => {
+    const handleDelayedUpdate = () => {
+      // Clear existing timer
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+
+      // Set a new timer for 1000ms (1 second)
+      timer.current = setTimeout(() => {
+        // Perform your database update query using the latest cart state
+        // ... your database update logic using cart
+        // ...
+        require("./api/cmd").query("updateiteminbasket", {
+          sup: supplier,
+          user: user,
+          basket: cart.length > 0 ? cart : [],
+        });
+
+        // Clear the timer reference
+        timer.current = null;
+      }, 2000);
+    };
+
+    handleDelayedUpdate();
+    // Cleanup function to clear the timer on component unmount
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+    };
+  }, [cart, timer]);
 
   return (
     <NavigationContainer>
