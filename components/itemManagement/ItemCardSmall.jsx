@@ -1,53 +1,10 @@
 import { API_SERVER } from "@env";
 
-import {
-  View,
-  Text,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import React, { Suspense, useContext, useEffect, useState } from "react";
-import { CustomHeader } from "../Nav/CustomHeader";
-import { AppContext } from "../../App";
-import { query } from "../../api/cmd";
-import IM from "../itemManagement/IM";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import React from "react";
+import IM from "./IM";
 
-export default function Cart() {
-  const { user, supplier, all, favs, cart, setAll, setFavs, setCart } =
-    useContext(AppContext);
-
-  return (
-    <SafeAreaView>
-      <CustomHeader />
-      {/* filters */}
-      <View>
-        <View></View>
-
-        <View></View>
-      </View>
-
-      <Suspense fallback={"Loading..."}>
-        <Text className="pl-2 text-lg font-bold">
-          {/* to put a spinner instead */}
-          Cart ({cart.length || "  "})
-        </Text>
-        {cart.length > 0 && (
-          <FlatList
-            className={`mb-[50px]`}
-            data={cart}
-            renderItem={({ item }) => <AllProductCard data={item} />}
-            keyExtractor={(offer, index) => "fav" + index + offer._id}
-          />
-        )}
-      </Suspense>
-    </SafeAreaView>
-  );
-}
-
-const AllProductCard = ({ data }) => {
+export default function ItemCardSmall({ data }) {
   return (
     <View
       className={`relative m-2 w-[96%] flex-row overflow-hidden rounded-xl bg-white px-2 shadow shadow-black`}
@@ -90,4 +47,4 @@ const AllProductCard = ({ data }) => {
       </View>
     </View>
   );
-};
+}

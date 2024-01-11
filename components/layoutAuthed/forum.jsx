@@ -1,10 +1,13 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text } from "react-native";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Forum() {
   return (
-    <View>
-      <Text>forum</Text>
-    </View>
-  )
+    <SafeAreaView>
+      <View>
+        <Text>forum</Text>
+      </View>
+    </SafeAreaView>
+  );
 }

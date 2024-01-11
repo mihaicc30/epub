@@ -1,13 +1,18 @@
-
-
 import { Fragment, useContext, useEffect, useState } from "react";
-import { View, TouchableOpacity, Dimensions, StyleSheet, Animated, Text } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+  Animated,
+  Text,
+} from "react-native";
 import { AppContext } from "../../App";
 
 export default function BotNav({ state, descriptors, navigation }) {
   const [translateValue] = useState(new Animated.Value(0));
   const totalWidth = Dimensions.get("window").width;
-  const tabWidth = totalWidth / (state.routes.length + 1);
+  const tabWidth = totalWidth / state.routes.length;
 
   const animateSlider = (index) => {
     Animated.spring(translateValue, {
@@ -36,7 +41,12 @@ export default function BotNav({ state, descriptors, navigation }) {
 
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
-          const label = options.tabBarLabel !== undefined ? options.tabBarLabel : options.title !== undefined ? options.title : route.name;
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+                ? options.title
+                : route.name;
 
           const isFocused = state.index === index;
 
@@ -61,13 +71,23 @@ export default function BotNav({ state, descriptors, navigation }) {
 
           return (
             <Fragment key={index}>
-              <TouchableOpacity accessibilityRole="button" accessibilityStates={isFocused ? ["selected"] : []} accessibilityLabel={options.tabBarAccessibilityLabel} testID={options.tabBarTestID} onPress={onPress} onLongPress={onLongPress} style={{ flex: 1 }}>
-                <BottomMenuItem pathName={label.toString()} isCurrent={isFocused} />
+              <TouchableOpacity
+                accessibilityRole="button"
+                accessibilityStates={isFocused ? ["selected"] : []}
+                accessibilityLabel={options.tabBarAccessibilityLabel}
+                testID={options.tabBarTestID}
+                onPress={onPress}
+                onLongPress={onLongPress}
+                style={{ flex: 1 }}
+              >
+                <BottomMenuItem
+                  pathName={label.toString()}
+                  isCurrent={isFocused}
+                />
               </TouchableOpacity>
             </Fragment>
           );
         })}
-        <LogoutButton />
       </View>
     </View>
   );
@@ -80,25 +100,21 @@ const BottomMenuItem = ({ pathName, isCurrent }) => {
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
-      }}>
-      <Text className={` ${isCurrent ? "text-green-500" : "text-black"} capitalize text-xs`}>{pathName}</Text>
-    </View>
-  );
-};
-
-const LogoutButton = () => {
-  const { logout } = useContext(AppContext);
-  return (
-    <TouchableOpacity accessibilityRole="button" onPress={logout} onLongPress={logout} style={{ flex: 1 }}>
-      <View
+      }}
+    >
+      <Text
         style={{
-          height: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
-        <Text className={`text-black text-xs`}>Logout</Text>
-      </View>
-    </TouchableOpacity>
+          textShadowColor: "#000000aa",
+          textShadowOffset: { width: 0.6, height: 0.8 },
+          textShadowRadius: 0.1,
+        }}
+        className={` ${
+          isCurrent ? "text-[#4f7eff]" : "text-black"
+        } text-xs capitalize `}
+      >
+        {pathName}
+      </Text>
+    </View>
   );
 };
 
@@ -123,7 +139,7 @@ const style = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 20,
-    backgroundColor: "gray",
+    backgroundColor: "#DFB101",
     borderRadius: 10,
   },
 });

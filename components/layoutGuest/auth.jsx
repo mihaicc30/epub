@@ -31,6 +31,7 @@ export default function auth() {
           <View className={`w-[80%]`}>
             <Text aria-label="email">Email</Text>
             <TextInput
+              autoComplete="email"
               className={` rounded-3xl border-2 border-gray-300/10 bg-gray-100 px-4 py-2 shadow-lg shadow-black`}
               placeholder="Email..."
               onChangeText={(text) => {
@@ -42,6 +43,7 @@ export default function auth() {
           <View className={`w-[80%]`}>
             <Text aria-label="password">Password</Text>
             <TextInput
+              autoComplete="password"
               className={` rounded-3xl border-2 border-gray-300/10 bg-gray-100 px-4 py-2 shadow-lg shadow-black`}
               placeholder="Password..."
               secureTextEntry

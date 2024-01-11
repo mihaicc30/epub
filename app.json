@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logobg.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.alemihai25.epubv2"
     },
     "web": {
       "favicon": "./assets/logobg.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "95a4e56b-b88a-4630-b4dc-8f085d46f353"
+      }
     }
   }
 }
