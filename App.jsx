@@ -5,7 +5,7 @@ import { BackHandler } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import BotNav from "./components/Nav/BotNav";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const Nav1 = createNativeStackNavigator();
 const Nav2 = createNativeStackNavigator();
@@ -39,6 +39,7 @@ export default function App() {
   const [all, setAll] = useState([]);
   const [favs, setFavs] = useState([]);
   const [cart, setCart] = useState([]);
+  const timer = useRef(null);
 
   const updStep = (val) => {
     setStep(val);
@@ -75,6 +76,7 @@ export default function App() {
           setAll,
           setFavs,
           setCart,
+          timer,
         }}
       >
         <AppContainer />

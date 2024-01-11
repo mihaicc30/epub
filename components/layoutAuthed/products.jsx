@@ -30,10 +30,11 @@ export default function Products() {
 
       </View>
 
+      {all.length < 1 && <Text className={`text-center`}>Supplier has not added any products.</Text> }
       <Suspense fallback={"Loading..."}>
         <Text className="text-lg font-bold pl-2">
           {/* to put a spinner instead */}
-          All Products ({all.length || "  "})
+          All Products ({all.length || " 0 "})
         </Text>
         <FlatList
         className={`mb-[50px]`}

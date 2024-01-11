@@ -38,8 +38,14 @@ export default function home() {
         <Suspense fallback={"Loading..."}>
           <Text className="pl-2 text-lg font-bold">
             {/* to put a spinner instead */}
-            Offers ({offers.length || "  "})
+            Offers ({offers.length || " 0 "})
           </Text>
+
+          {offers.length < 1 && (
+            <Text className={`text-center`}>
+              There are no offers at the moment.
+            </Text>
+          )}
           <FlatList
             horizontal={true}
             data={offers}
@@ -51,8 +57,13 @@ export default function home() {
         <Suspense fallback={"Loading..."}>
           <Text className="pl-2 text-lg font-bold">
             {/* to put a spinner instead */}
-            Newest ({newest.length || "  "})
+            Newest ({newest.length || " 0 "})
           </Text>
+          {newest.length < 1 && (
+            <Text className={`text-center`}>
+              There are no new products.
+            </Text>
+          )}
           <FlatList
             className={`mb-[50px]`}
             horizontal={true}

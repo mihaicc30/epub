@@ -36,7 +36,7 @@ export default function ItemCardBig({ data }) {
           <Text className={`text-lg font-[600]`}>£{data.price_offer}</Text>
         )}
       </View>
-      <Text className={``}>{data.name}</Text>
+      <Text className={`text-sm`}>{data.name}</Text>
 
       <IM data={data} />
     </View>

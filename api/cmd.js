@@ -19,7 +19,9 @@ export const query = async (path, data) => {
   const query = await fetch(`${API_SERVER}/${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({...data}),
+    body: JSON.stringify({ ...data }),
   });
-  return await query.json();
+  const response = await query.json();
+  console.log("🚀 ~ query ~ response:", response);
+  return response;
 };

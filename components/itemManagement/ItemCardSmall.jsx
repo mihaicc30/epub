@@ -26,7 +26,7 @@ export default function ItemCardSmall({ data }) {
       </TouchableOpacity>
 
       <View className={`flex-1`}>
-        <Text className={``}>{data.name}</Text>
+        <Text className={`text-sm`}>{data.name}</Text>
       </View>
 
       <View className={`basis-[20%]`}>

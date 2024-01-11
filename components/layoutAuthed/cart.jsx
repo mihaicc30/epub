@@ -12,37 +12,60 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React, { Suspense, useContext, useEffect, useState } from "react";
 import { CustomHeader } from "../Nav/CustomHeader";
 import { AppContext } from "../../App";
-import { query } from "../../api/cmd";
 import IM from "../itemManagement/IM";
+import { query } from "../../api/cmd";
 
 export default function Cart() {
   const { user, supplier, all, favs, cart, setAll, setFavs, setCart } =
     useContext(AppContext);
 
+  const handleDeleteCart = () => {
+    query("removeallfrombasket", {
+      sup: supplier,
+      user: user,
+    }).then(() => setCart([]));
+  };
+
+  const handleCheckoutCart = () => {};
+
   return (
     <SafeAreaView>
       <CustomHeader />
-      {/* filters */}
-      <View>
-        <View></View>
-
-        <View></View>
-      </View>
 
       <Suspense fallback={"Loading..."}>
         <Text className="pl-2 text-lg font-bold">
           {/* to put a spinner instead */}
-          Cart ({cart.length || "  "})
+          Cart ({cart.length || " 0 "})
         </Text>
+
+        <TouchableOpacity onPress={handleDeleteCart}>
+          <Text
+            className={`my-4 rounded-3xl border-transparent bg-orange-500 py-2 text-center font-[400] tracking-wider text-white shadow-lg shadow-black`}
+          >
+            Delete All
+          </Text>
+        </TouchableOpacity>
+
         {cart.length > 0 && (
           <FlatList
-            className={`mb-[50px]`}
             data={cart}
             renderItem={({ item }) => <AllProductCard data={item} />}
             keyExtractor={(offer, index) => "fav" + index + offer._id}
           />
         )}
       </Suspense>
+
+      {cart.length < 1 && (
+        <Text className={`text-center`}> Your cart is empty.</Text>
+      )}
+
+      <TouchableOpacity onPress={handleCheckoutCart}>
+        <Text
+          className={`my-4 rounded-3xl border-transparent bg-green-500 py-2 text-center font-[400] tracking-wider text-white shadow-lg shadow-black`}
+        >
+          Checkout
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

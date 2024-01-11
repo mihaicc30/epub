@@ -41,10 +41,12 @@ export default function Favorites() {
         <View></View>
       </View>
 
+      {filteredFavs.length < 1 && <Text className={`text-center`}> You have no favorites.</Text> }
+
       <Suspense fallback={"Loading..."}>
         <Text className="pl-2 text-lg font-bold">
           {/* to put a spinner instead */}
-          Favorite Products ({filteredFavs.length || "  "})
+          Favorite Products ({filteredFavs.length || " 0 "})
         </Text>
         {filteredFavs.length > 0 && (
           <FlatList
