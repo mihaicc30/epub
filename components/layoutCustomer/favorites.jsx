@@ -8,11 +8,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { Suspense, useContext, useEffect, useState } from "react";
-import { CustomHeader } from "../Nav/CustomHeader";
+import { CustomHeader } from "./Nav/CustomHeader";
 import { AppContext } from "../../App";
-import { query } from "../../api/cmd";
-import IM from "../itemManagement/IM";
-import ItemCardSmall from "../itemManagement/ItemCardSmall";
+import ItemCardSmall from "./itemManagement/ItemCardSmall";
 
 export default function Favorites() {
   const { user, supplier, all, favs, cart, setAll, setFavs, setCart } =
@@ -41,18 +39,19 @@ export default function Favorites() {
         <View></View>
       </View>
 
-      {filteredFavs.length < 1 && <Text className={`text-center`}> You have no favorites.</Text> }
-
-      <Suspense fallback={"Loading..."}>
+      <Suspense fallback={<Text>Loading...</Text>}>
         <Text className="pl-2 text-lg font-bold">
           {/* to put a spinner instead */}
           Favorite Products ({filteredFavs.length || " 0 "})
         </Text>
+        {filteredFavs.length < 1 && (
+          <Text className={`text-center`}> You have no favorites.</Text>
+        )}
         {filteredFavs.length > 0 && (
           <FlatList
-            className={`mb-[50px]`}
+            className={`mb-[140px]`}
             data={filteredFavs}
-            renderItem={({ item }) => <ItemCardSmall data={item} />}
+            renderItem={({ item }) => <ItemCardSmall data={item} cart={cart} />}
             keyExtractor={(offer, index) => "fav" + index + offer._id}
           />
         )}

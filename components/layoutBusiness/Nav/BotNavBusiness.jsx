@@ -7,9 +7,9 @@ import {
   Animated,
   Text,
 } from "react-native";
-import { AppContext } from "../../App";
+import { AppContext } from "../../../App";
 
-export default function BotNav({ state, descriptors, navigation }) {
+export function BotNavBusiness({ state, descriptors, navigation }) {
   const [translateValue] = useState(new Animated.Value(0));
   const totalWidth = Dimensions.get("window").width;
   const tabWidth = totalWidth / state.routes.length;
@@ -109,19 +109,7 @@ const BottomMenuItem = ({ pathName, isCurrent }) => {
         } text-xs capitalize `}
       >
         {pathName}
-      </Text>
-      {pathName === "cart" && (
-        <Text
-          style={{
-            textShadowColor: "#000000aa",
-            textShadowOffset: { width: 0.6, height: 0.8 },
-            textShadowRadius: 0.1,
-          }}
-          className={`absolute top-3 text-xs`}
-        >
-          {cart.reduce((total, item) => total + item.qty, 0)}
-        </Text>
-      )}
+      </Text> 
     </View>
   );
 };

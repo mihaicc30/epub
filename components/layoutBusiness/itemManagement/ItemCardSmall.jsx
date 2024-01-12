@@ -1,13 +1,15 @@
-import { API_SERVER } from "@env";
 
+import {API_SERVER, API_SERVER2} from "@env"
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../../../App";
 import IM from "./IM";
 
 export default function ItemCardSmall({ data }) {
+  const { cart } = useContext(AppContext);
   return (
     <View
-      className={`relative m-2 w-[96%] flex-row overflow-hidden rounded-xl bg-white px-2 shadow shadow-black`}
+      className={`relative m-2 w-[96%] flex-row overflow-hidden rounded-xl bg-white p-1 shadow shadow-black`}
     >
       {data.price_offer && (
         <Text
@@ -19,17 +21,26 @@ export default function ItemCardSmall({ data }) {
       <TouchableOpacity className={`basis-[20%]`}>
         <Image
           source={{
-            uri: `${API_SERVER}/img/products/${data._id}.jpg`,
+            uri: `${API_SERVER2}/img/products/${data._id}.jpg`,
           }}
           className={`m-auto h-[60px] w-[60px] rounded-lg`}
         />
       </TouchableOpacity>
 
       <View className={`flex-1`}>
-        <Text className={`text-sm`}>{data.name}</Text>
+        <Text className={`text-sm `} numberOfLines={2} ellipsizeMode="tail">
+          {data.name}
+        </Text>
+        <Text
+          className={`mt-auto text-sm`}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {data.pack_size}
+        </Text>
       </View>
 
-      <View className={`basis-[20%]`}>
+      <View className={`basis-[22%]`}>
         <View className={`items-end pr-1`}>
           <Text
             className={` ${
@@ -43,7 +54,7 @@ export default function ItemCardSmall({ data }) {
           )}
         </View>
 
-        <IM data={data} />
+        <IM data={data} cart={cart}/>
       </View>
     </View>
   );

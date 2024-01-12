@@ -4,6 +4,6 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: ["nativewind/babel", "react-native-paper/babel", "module:react-native-dotenv"],
 }
 

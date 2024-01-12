@@ -1,1 +1,4 @@
 eas build -p android --profile preview
+
+eas build --platform android --local
+eas build --platform ios --local

@@ -4,12 +4,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { BackHandler } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import BotNav from "./components/Nav/BotNav";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+
+import { BotNavCustomer } from "./components/layoutCustomer/Nav/BotNavCustomer";
+import { BotNavBusiness } from "./components/layoutBusiness/Nav/BotNavBusiness";
 
 const Nav1 = createNativeStackNavigator();
 const Nav2 = createNativeStackNavigator();
 const Nav3 = createBottomTabNavigator();
+const Nav4 = createBottomTabNavigator();
 
 export const AppContext = createContext(null);
 
@@ -22,19 +25,9 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const [step, setStep] = useState(3);
-  const [user, setUser] = useState({
-    _id: "637e738dd96302710a205a28",
-    email: "alemihai25@gmail.com",
-    name: "BlackHartX",
-    phone: "07111443350891",
-  });
-  const [supplier, setSupplier] = useState({
-    _id: "63808495f18bda2871e37f4a",
-    email: "1alemihai25@gmail.com",
-    name: "Mega_Supplier",
-    phone: "07443399999999",
-  });
+  const [step, setStep] = useState(1);
+  const [user, setUser] = useState(false);
+  const [supplier, setSupplier] = useState(false);
 
   const [all, setAll] = useState([]);
   const [favs, setFavs] = useState([]);
@@ -46,6 +39,11 @@ export default function App() {
   };
 
   const logout = () => {
+    setAll([]);
+    setFavs([]);
+    setCart([]);
+    setUser(false);
+    setSupplier(false);
     setStep(1);
   };
 
@@ -66,6 +64,9 @@ export default function App() {
       <AppContext.Provider
         value={{
           step,
+          setStep,
+          setUser,
+          setSupplier,
           updStep,
           logout,
           user,
@@ -79,152 +80,102 @@ export default function App() {
           timer,
         }}
       >
-        <AppContainer />
+        <NavigationContainer>
+          {step == 4 && ( // Render this when the user is authenticated
+            <Nav4.Navigator
+              tabBar={(state) => <BotNavBusiness {...state} />}
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Nav4.Screen
+                name="products"
+                getComponent={() =>
+                  require("./components/layoutBusiness/products").default
+                }
+              />
+            </Nav4.Navigator>
+          )}
+          {step == 3 && ( // Render this when the user is authenticated
+            <Nav3.Navigator
+              tabBar={(state) => <BotNavCustomer {...state} />}
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Nav3.Screen
+                name="home"
+                getComponent={() =>
+                  require("./components/layoutCustomer/home").default
+                }
+              />
+              <Nav3.Screen
+                name="products"
+                getComponent={() =>
+                  require("./components/layoutCustomer/products").default
+                }
+              />
+              <Nav3.Screen
+                name="favorites"
+                getComponent={() =>
+                  require("./components/layoutCustomer/favorites").default
+                }
+              />
+              <Nav3.Screen
+                name="cart"
+                getComponent={() =>
+                  require("./components/layoutCustomer/cart").default
+                }
+              />
+              <Nav3.Screen
+                name="forum"
+                getComponent={() =>
+                  require("./components/layoutCustomer/forum").default
+                }
+              />
+            </Nav3.Navigator>
+          )}
+
+          {step == 2 && (
+            <Nav2.Navigator
+              initialRouteName="Supplier"
+              screenOptions={{
+                headerShown: false,
+              }}
+              options={{
+                // This tab will no longer show up in the tab bar.
+                href: null,
+              }}
+            >
+              <Nav2.Screen
+                name="Supplier"
+                getComponent={() =>
+                  require("./components/layoutCustomer/chooseSupplier").default
+                }
+              />
+            </Nav2.Navigator>
+          )}
+          {step == 1 && (
+            <Nav1.Navigator
+              initialRouteName="Auth"
+              screenOptions={{
+                headerShown: false,
+              }}
+              options={{
+                // This tab will no longer show up in the tab bar.
+                href: null,
+              }}
+            >
+              <Nav1.Screen
+                name="Auth"
+                getComponent={() =>
+                  require("./components/layoutGuest/auth").default
+                }
+              />
+            </Nav1.Navigator>
+          )}
+        </NavigationContainer>
       </AppContext.Provider>
     </QueryClientProvider>
   );
 }
-
-const AppContainer = () => {
-  const {
-    user,
-    supplier,
-    step,
-    all,
-    favs,
-    cart,
-    setAll,
-    setFavs,
-    setCart,
-    timer,
-  } = useContext(AppContext);
-
-  useEffect(() => {
-    if (!user || !supplier) return;
-
-    require("./api/cmd")
-      .query("all", { sup: supplier.name })
-      .then((res) => setAll(res));
-    require("./api/cmd")
-      .query("requestfavs", { sup: supplier, user: user })
-      .then((res) => setFavs(res));
-    require("./api/cmd")
-      .query("grabbasket", { sup: supplier._id, user: user._id })
-      .then((res) => setCart(res));
-  }, [user, supplier]);
-
-  useEffect(() => {
-    const handleDelayedUpdate = () => {
-      // Clear existing timer
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
-
-      // Set a new timer for 1000ms (1 second)
-      timer.current = setTimeout(() => {
-        // Perform your database update query using the latest cart state
-        // ... your database update logic using cart
-        // ...
-        require("./api/cmd").query("updateiteminbasket", {
-          sup: supplier,
-          user: user,
-          basket: cart.length > 0 ? cart : [],
-        });
-
-        // Clear the timer reference
-        timer.current = null;
-      }, 2000);
-    };
-
-    handleDelayedUpdate();
-    // Cleanup function to clear the timer on component unmount
-    return () => {
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
-    };
-  }, [cart, timer]);
-
-  return (
-    <NavigationContainer>
-      {step == 3 && ( // Render this when the user is authenticated
-        <Nav3.Navigator
-          tabBar={(state) => <BotNav {...state} />}
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Nav3.Screen
-            name="home"
-            getComponent={() =>
-              require("./components/layoutAuthed/home").default
-            }
-          />
-          <Nav3.Screen
-            name="products"
-            getComponent={() =>
-              require("./components/layoutAuthed/products").default
-            }
-          />
-          <Nav3.Screen
-            name="favorites"
-            getComponent={() =>
-              require("./components/layoutAuthed/favorites").default
-            }
-          />
-          <Nav3.Screen
-            name="cart"
-            getComponent={() =>
-              require("./components/layoutAuthed/cart").default
-            }
-          />
-          <Nav3.Screen
-            name="forum"
-            getComponent={() =>
-              require("./components/layoutAuthed/forum").default
-            }
-          />
-        </Nav3.Navigator>
-      )}
-
-      {step == 2 && (
-        <Nav2.Navigator
-          initialRouteName="Supplier"
-          screenOptions={{
-            headerShown: false,
-          }}
-          options={{
-            // This tab will no longer show up in the tab bar.
-            href: null,
-          }}
-        >
-          <Nav2.Screen
-            name="Supplier"
-            getComponent={() =>
-              require("./components/layoutAuthed/chooseSupplier").default
-            }
-          />
-        </Nav2.Navigator>
-      )}
-      {step == 1 && (
-        <Nav1.Navigator
-          initialRouteName="Auth"
-          screenOptions={{
-            headerShown: false,
-          }}
-          options={{
-            // This tab will no longer show up in the tab bar.
-            href: null,
-          }}
-        >
-          <Nav1.Screen
-            name="Auth"
-            getComponent={() =>
-              require("./components/layoutGuest/auth").default
-            }
-          />
-        </Nav1.Navigator>
-      )}
-    </NavigationContainer>
-  );
-};

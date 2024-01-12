@@ -1,27 +1,14 @@
-import { API_SERVER } from "@env";
 import { useContext } from "react";
 import { AppContext } from "../App";
+import {API_SERVER, API_SERVER2} from "@env"
 const { user, supplier } = useContext(AppContext);
 
-// export const getItems = async () => {
-//   const query = await fetch(`${API_SERVER}/offers`, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       sup: supplier.name,
-//     }),
-//   });
-//   return await query.json();
-// };
-
 export const query = async (path, data) => {
-  // console.log(`${API_SERVER}/${path}`, data)
-  const query = await fetch(`${API_SERVER}/${path}`, {
+  const q = await fetch(`${API_SERVER}/${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ...data }),
   });
-  const response = await query.json();
-  // console.log("🚀 ~ query ~ response:", response);
+  const response = await q.json();
   return response;
 };
