@@ -1,5 +1,5 @@
 import { API_SERVER, API_SERVER2 } from "@env";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import React, { useContext } from "react";
 import { AppContext } from "../../../App";
 import IM from "./IM";
@@ -21,7 +21,7 @@ export default function ItemCardBig({ data }) {
       <TouchableOpacity>
         <Image
           source={{
-            uri: `${API_SERVER2}/img/products/${data._id}.jpg`,
+            uri: `${API_SERVER}/img/products/${data._id}.jpg`,
           }}
           className={`m-auto h-[150px] w-[150px] rounded-lg`}
         />

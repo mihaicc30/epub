@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity , StatusBar } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../../App";
 

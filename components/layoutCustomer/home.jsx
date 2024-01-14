@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  StatusBar,
 } from "react-native";
 import React, { Suspense, useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,51 +28,51 @@ export default function home() {
     .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date in descending order
     .slice(0, 10); // Take the first 5 products
 
+
   return (
-    <SafeAreaView>
-      <CustomHeader />
+    <>
+      <StatusBar animated={true} backgroundColor="#9d9d9de0" />
+      <SafeAreaView>
+        <CustomHeader />
 
-      <ScrollView>
-        <Suspense fallback={<Text>Loading...</Text>}>
-          <Text className="pl-2 text-lg font-bold">
-            {/* to put a spinner instead */}
-            Offers ({offers.length || " 0 "})
-          </Text>
-
-          {offers.length < 1 && (
-            <Text className={`text-center`}>
-              There are no offers at the moment.
+        <ScrollView>
+          <Suspense fallback={<Text>Loading...</Text>}>
+            <Text className="pl-2 text-lg font-bold">
+              {/* to put a spinner instead */}
+              Offers ({offers.length || " 0 "})
             </Text>
-          )}
-          <FlatList
-            horizontal={true}
-            data={offers}
-            renderItem={({ item }) => <ItemCardBig data={item}/>}
-            keyExtractor={(offer) => offer._id}
-          />
-        </Suspense>
 
-        <Suspense fallback={<Text>Loading...</Text>}>
-          <Text className="pl-2 text-lg font-bold">
-            {/* to put a spinner instead */}
-            Newest ({newest.length || " 0 "})
-          </Text>
-          {newest.length < 1 && (
-            <Text className={`text-center`}>
-              There are no new products.
+            {offers.length < 1 && (
+              <Text className={`text-center`}>
+                There are no offers at the moment.
+              </Text>
+            )}
+            <FlatList
+              horizontal={true}
+              data={offers}
+              renderItem={({ item }) => <ItemCardBig data={item} />}
+              keyExtractor={(offer) => offer._id}
+            />
+          </Suspense>
+
+          <Suspense fallback={<Text>Loading...</Text>}>
+            <Text className="pl-2 text-lg font-bold">
+              {/* to put a spinner instead */}
+              Newest ({newest.length || " 0 "})
             </Text>
-          )}
-          <FlatList
-            className={`mb-[140px]`}
-            horizontal={true}
-            data={newest}
-            renderItem={({ item }) => <ItemCardBig data={item}/>}
-            keyExtractor={(prod) => prod._id}
-          />
-        </Suspense>
-        
-
-      </ScrollView>
-    </SafeAreaView>
+            {newest.length < 1 && (
+              <Text className={`text-center`}>There are no new products.</Text>
+            )}
+            <FlatList
+              className={`mb-[140px]`}
+              horizontal={true}
+              data={newest}
+              renderItem={({ item }) => <ItemCardBig data={item} />}
+              keyExtractor={(prod) => prod._id}
+            />
+          </Suspense>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 }

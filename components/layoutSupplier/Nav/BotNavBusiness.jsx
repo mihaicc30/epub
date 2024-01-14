@@ -6,17 +6,22 @@ import {
   StyleSheet,
   Animated,
   Text,
+  StatusBar,
 } from "react-native";
 import { AppContext } from "../../../App";
 
 export function BotNavBusiness({ state, descriptors, navigation }) {
+
   const [translateValue] = useState(new Animated.Value(0));
   const totalWidth = Dimensions.get("window").width;
-  const tabWidth = totalWidth / state.routes.length;
+  //index has been tampered with. if plan to use more than 4 tabs, need to modify here.
+  const tabWidth = totalWidth / 4;
 
   const animateSlider = (index) => {
     Animated.spring(translateValue, {
-      toValue: index * tabWidth,
+      //index has been tampered with. if plan to use more than 4 tabs, need to modify here.
+      //have to skip index 1 as there are 2 hidden indexes after 0
+      toValue: index === 0 ? index * tabWidth : (index - 2) * tabWidth,
       velocity: 10,
       useNativeDriver: true,
     }).start();
@@ -40,6 +45,7 @@ export function BotNavBusiness({ state, descriptors, navigation }) {
         />
 
         {state.routes.map((route, index) => {
+          if (route.name === "product-detail" || route.name === "product-new") return; // want this route hidden and only shown when clicked upon a product
           const { options } = descriptors[route.key];
           const label =
             options.tabBarLabel !== undefined
@@ -94,8 +100,6 @@ export function BotNavBusiness({ state, descriptors, navigation }) {
 }
 
 const BottomMenuItem = ({ pathName, isCurrent }) => {
-  const { cart } = useContext(AppContext);
-
   return (
     <View className={`relative h-[100%] items-center justify-center`}>
       <Text
@@ -109,7 +113,7 @@ const BottomMenuItem = ({ pathName, isCurrent }) => {
         } text-xs capitalize `}
       >
         {pathName}
-      </Text> 
+      </Text>
     </View>
   );
 };

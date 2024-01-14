@@ -5,8 +5,7 @@ import {
   Dimensions,
   StyleSheet,
   Animated,
-  Text,
-} from "react-native";
+  Text, StatusBar } from "react-native";
 import { AppContext } from "../../../App";
 
 export function BotNavCustomer({ state, descriptors, navigation }) {

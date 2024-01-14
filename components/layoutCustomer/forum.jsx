@@ -5,8 +5,7 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
-  Image,
-} from "react-native";
+  Image, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { Suspense, useContext, useEffect, useState } from "react";
 import { CustomHeader } from "./Nav/CustomHeader";
@@ -26,6 +25,11 @@ export default function Forum() {
   }, []);
 
   return (
+    <>
+   <StatusBar
+        animated={true}
+        backgroundColor="#9d9d9de0"
+      />
     <SafeAreaView>
       <CustomHeader />
       {/* filters */}
@@ -58,6 +62,7 @@ export default function Forum() {
         )}
       </Suspense>
     </SafeAreaView>
+    </>
   );
 }
 

@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { Suspense, useContext, useEffect, useState } from "react";
@@ -30,32 +31,40 @@ export default function Favorites() {
         });
 
   return (
-    <SafeAreaView>
-      <CustomHeader />
-      {/* filters */}
-      <View>
-        <View></View>
+    <>
+  <StatusBar
+        animated={true}
+        backgroundColor="#9d9d9de0"
+      />
+      <SafeAreaView>
+        <CustomHeader />
+        {/* filters */}
+        <View>
+          <View></View>
 
-        <View></View>
-      </View>
+          <View></View>
+        </View>
 
-      <Suspense fallback={<Text>Loading...</Text>}>
-        <Text className="pl-2 text-lg font-bold">
-          {/* to put a spinner instead */}
-          Favorite Products ({filteredFavs.length || " 0 "})
-        </Text>
-        {filteredFavs.length < 1 && (
-          <Text className={`text-center`}> You have no favorites.</Text>
-        )}
-        {filteredFavs.length > 0 && (
-          <FlatList
-            className={`mb-[140px]`}
-            data={filteredFavs}
-            renderItem={({ item }) => <ItemCardSmall data={item} cart={cart} />}
-            keyExtractor={(offer, index) => "fav" + index + offer._id}
-          />
-        )}
-      </Suspense>
-    </SafeAreaView>
+        <Suspense fallback={<Text>Loading...</Text>}>
+          <Text className="pl-2 text-lg font-bold">
+            {/* to put a spinner instead */}
+            Favorite Products ({filteredFavs.length || " 0 "})
+          </Text>
+          {filteredFavs.length < 1 && (
+            <Text className={`text-center`}> You have no favorites.</Text>
+          )}
+          {filteredFavs.length > 0 && (
+            <FlatList
+              className={`mb-[140px]`}
+              data={filteredFavs}
+              renderItem={({ item }) => (
+                <ItemCardSmall data={item} cart={cart} />
+              )}
+              keyExtractor={(offer, index) => "fav" + index + offer._id}
+            />
+          )}
+        </Suspense>
+      </SafeAreaView>
+    </>
   );
 }

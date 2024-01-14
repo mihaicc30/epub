@@ -1,13 +1,13 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
 
-import { BackHandler } from "react-native";
+import { BackHandler, StatusBar } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 import { BotNavCustomer } from "./components/layoutCustomer/Nav/BotNavCustomer";
-import { BotNavBusiness } from "./components/layoutBusiness/Nav/BotNavBusiness";
+import { BotNavBusiness } from "./components/layoutSupplier/Nav/BotNavBusiness";
 
 const Nav1 = createNativeStackNavigator();
 const Nav2 = createNativeStackNavigator();
@@ -51,8 +51,10 @@ export default function App() {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       () => {
-        setStep((prevStep) => Math.max(1, prevStep - 1)); // Ensure step is not negative
-        return true; // Returning true prevents the default back button behavior
+        if (user.type === "customer") {
+          setStep((prevStep) => Math.max(1, prevStep - 1)); // Ensure step is not negative
+          return true; // Returning true prevents the default back button behavior
+        }
       },
     );
 
@@ -81,7 +83,8 @@ export default function App() {
         }}
       >
         <NavigationContainer>
-          {step == 4 && ( // Render this when the user is authenticated
+          {/* supplier layout */}
+          {(step == 4 || step == 5) && (
             <Nav4.Navigator
               tabBar={(state) => <BotNavBusiness {...state} />}
               screenOptions={{
@@ -91,12 +94,45 @@ export default function App() {
               <Nav4.Screen
                 name="products"
                 getComponent={() =>
-                  require("./components/layoutBusiness/products").default
+                  require("./components/layoutSupplier/products").default
+                }
+              />
+              <Nav4.Screen
+                name="product-detail"
+                getComponent={() =>
+                  require("./components/layoutSupplier/itemManagement/ItemCardBig")
+                    .default
+                }
+              />
+              <Nav4.Screen
+                name="product-new"
+                getComponent={() =>
+                  require("./components/layoutSupplier/itemManagement/ItemCardNew")
+                    .default
+                }
+              />
+              <Nav4.Screen
+                name="businesses"
+                getComponent={() =>
+                  require("./components/layoutSupplier/businesses").default
+                }
+              />
+              <Nav4.Screen
+                name="invoices"
+                getComponent={() =>
+                  require("./components/layoutSupplier/invoices").default
+                }
+              />
+              <Nav4.Screen
+                name="forum"
+                getComponent={() =>
+                  require("./components/layoutSupplier/forum").default
                 }
               />
             </Nav4.Navigator>
           )}
-          {step == 3 && ( // Render this when the user is authenticated
+          {/* customer layout */}
+          {step == 3 && (
             <Nav3.Navigator
               tabBar={(state) => <BotNavCustomer {...state} />}
               screenOptions={{
@@ -135,7 +171,7 @@ export default function App() {
               />
             </Nav3.Navigator>
           )}
-
+          {/* customer choice of supplier */}
           {step == 2 && (
             <Nav2.Navigator
               initialRouteName="Supplier"
@@ -155,6 +191,7 @@ export default function App() {
               />
             </Nav2.Navigator>
           )}
+          {/* auth screen */}
           {step == 1 && (
             <Nav1.Navigator
               initialRouteName="Auth"
