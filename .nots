@@ -2,3 +2,10 @@ eas build -p android --profile preview
 
 eas build --platform android --local
 eas build --platform ios --local
+
+
+
+
+
+import Ionicons from '@expo/vector-icons/Ionicons';
+<Ionicons name="airplane-outline" size={32} color="green" /> 

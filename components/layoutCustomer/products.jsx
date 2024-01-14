@@ -88,12 +88,24 @@ export default function Products() {
     )
     .sort((a, b) => processSorting(a, b));
 
-  const [minv, setminv] = useState(Math.min(...all.map((item) => item.price)));
-  const [maxv, setmaxv] = useState(Math.max(...all.map((item) => item.price)));
+  const [minv, setminv] = useState(
+    parseFloat(
+      Math.min(...all.map((item) => parseFloat(item.price))).toFixed(2),
+    ),
+  );
+  const [maxv, setmaxv] = useState(
+    parseFloat(
+      Math.max(...all.map((item) => parseFloat(item.price))).toFixed(2),
+    ),
+  );
 
   const [priceRange, setPriceRange] = useState({
-    setmin: parseFloat(Math.min(...all.map((item) => item.price))) - 1,
-    setmax: parseFloat(Math.max(...all.map((item) => item.price))) + 1,
+    setmin: parseFloat(
+      Math.min(...all.map((item) => parseFloat(item.price))).toFixed(2),
+    ),
+    setmax: parseFloat(
+      Math.max(...all.map((item) => parseFloat(item.price))).toFixed(2),
+    ),
   });
 
   const handlePriceRangeUpdate = (value) => {
@@ -128,7 +140,7 @@ export default function Products() {
               minimumValue={minv} // Minimum value
               maximumValue={maxv} // Maximum value
               step={1} // The step for the slider (0 means that the slider will handle any decimal value within the range [min, max])
-              minimumRange={(maxv - minv) * 0.1} // Minimum range between the two thumbs (defaults as "step")
+              minimumRange={parseFloat(((maxv - minv) * 0.1).toFixed(2))} // Minimum range between the two thumbs (defaults as "step")
               outboundColor="white" // The track color outside the current range value
               inboundColor="#EAEAEA" // The track color inside the current range value
               thumbTintColor="orange" // The color of the slider's thumb
@@ -193,7 +205,7 @@ export default function Products() {
           >
             <Text className="pl-2 font-bold">
               {/* to put a spinner instead */}
-              Products ({filteredAll.length || " 0 "}/{all.length || " 0 "})
+              Products ({filteredAll.length || "0"}/{all.length || "0"})
             </Text>
             <View className={`flex-row items-center gap-x-2`}>
               <TouchableOpacity

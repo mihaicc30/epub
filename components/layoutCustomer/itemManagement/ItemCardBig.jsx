@@ -11,11 +11,11 @@ export default function ItemCardBig({ data }) {
     <View
       className={`relative m-2 h-[300px] w-[170px] overflow-hidden rounded-xl bg-white px-2 shadow shadow-black`}
     >
-      {data.price_offer && (
+      {parseFloat(data.price_offer) > 0 && (
         <Text
           className={` absolute left-0 top-0 z-10 rounded-br-xl bg-red-500 p-2 text-white`}
         >
-          -{(((data.price - data.price_offer) / data.price) * 100).toFixed(0)}%
+          -{(((parseFloat(data.price) - parseFloat(data.price_offer)) / parseFloat(data.price)) * 100).toFixed(0)}%
         </Text>
       )}
       <TouchableOpacity>
@@ -32,10 +32,10 @@ export default function ItemCardBig({ data }) {
             parseFloat(data.price_offer) > 0 ? "text-sm line-through" : ""
           }`}
         >
-          £{data.price}
+          £{parseFloat(data.price).toFixed(2)}
         </Text>
         {parseFloat(data.price_offer) > 0 && (
-          <Text className={`text-lg font-[600]`}>£{data.price_offer}</Text>
+          <Text className={`text-lg font-[600]`}>£{parseFloat(data.price_offer).toFixed(2)}</Text>
         )}
       </View>
       <Text className={`text-sm `} numberOfLines={2} ellipsizeMode="tail">

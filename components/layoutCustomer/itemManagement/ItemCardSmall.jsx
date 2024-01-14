@@ -1,6 +1,5 @@
-
-import {API_SERVER, API_SERVER2} from "@env"
-import { View, Text, TouchableOpacity, Image , StatusBar } from "react-native";
+import { API_SERVER, API_SERVER2 } from "@env";
+import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import React, { useContext } from "react";
 import { AppContext } from "../../../App";
 import IM from "./IM";
@@ -11,11 +10,17 @@ export default function ItemCardSmall({ data }) {
     <View
       className={`relative m-2 w-[96%] flex-row overflow-hidden rounded-xl bg-white p-1 shadow shadow-black`}
     >
-      {data.price_offer && (
+      {parseFloat(data.price_offer) > 0 && (
         <Text
           className={` absolute left-0 top-0 z-10 rounded-br-xl bg-red-500 p-2 text-white`}
         >
-          -{(((data.price - data.price_offer) / data.price) * 100).toFixed(0)}%
+          -
+          {(
+            ((parseFloat(data.price) - parseFloat(data.price_offer)) /
+              parseFloat(data.price)) *
+            100
+          ).toFixed(0)}
+          %
         </Text>
       )}
       <TouchableOpacity className={`basis-[20%]`}>
@@ -47,14 +52,16 @@ export default function ItemCardSmall({ data }) {
               parseFloat(data.price_offer) > 0 ? "text-sm line-through" : ""
             }`}
           >
-            £{data.price}
+            £{parseFloat(data.price)}
           </Text>
-          {parseFloat(data.price_offer) > 0 && (
-            <Text className={`font-[600]`}>£{data.price_offer}</Text>
+          {parseFloat(data.price_offer).toFixed(2) > 0 && (
+            <Text className={`font-[600]`}>
+              £{parseFloat(data.price_offer).toFixed(2)}
+            </Text>
           )}
         </View>
 
-        <IM data={data} cart={cart}/>
+        <IM data={data} cart={cart} />
       </View>
     </View>
   );
