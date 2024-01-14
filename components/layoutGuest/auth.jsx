@@ -54,11 +54,8 @@ export default function auth() {
 
   return (
     <>
-    <StatusBar
-        animated={true}
-        backgroundColor="#9d9d9de0"
-      />
       <SafeAreaView>
+        <StatusBar animated={true} backgroundColor="#9d9d9de0" />
         <View className={`h-100`}>
           <Image
             source={require("../../assets/logobg.png")}

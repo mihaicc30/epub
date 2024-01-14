@@ -5,13 +5,16 @@ import {
   Dimensions,
   StyleSheet,
   Animated,
-  Text, StatusBar } from "react-native";
+  Text,
+  StatusBar,
+} from "react-native";
 import { AppContext } from "../../../App";
 
 export function BotNavCustomer({ state, descriptors, navigation }) {
+
   const [translateValue] = useState(new Animated.Value(0));
   const totalWidth = Dimensions.get("window").width;
-  const tabWidth = totalWidth / state.routes.length;
+  const tabWidth = totalWidth / (state.routes.length - 1);
 
   const animateSlider = (index) => {
     Animated.spring(translateValue, {
@@ -22,7 +25,7 @@ export function BotNavCustomer({ state, descriptors, navigation }) {
   };
 
   useEffect(() => {
-    animateSlider(state.index);
+    animateSlider(state.index == 5 ? 3 : state.index);
   }, [state.index]);
 
   return (
@@ -39,6 +42,7 @@ export function BotNavCustomer({ state, descriptors, navigation }) {
         />
 
         {state.routes.map((route, index) => {
+          if(route.name === "checkout")return
           const { options } = descriptors[route.key];
           const label =
             options.tabBarLabel !== undefined

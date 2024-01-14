@@ -169,6 +169,12 @@ export default function App() {
                   require("./components/layoutCustomer/forum").default
                 }
               />
+              <Nav3.Screen
+                name="checkout"
+                getComponent={() =>
+                  require("./components/layoutCustomer/checkout").default
+                }
+              />
             </Nav3.Navigator>
           )}
           {/* customer choice of supplier */}

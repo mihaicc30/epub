@@ -69,7 +69,7 @@ export default function Favorites() {
           )}
           {filteredFavs.length > 0 && (
             <FlatList
-              className={`mb-[140px]`}
+              className={`mb-[200px]`}
               data={filteredFavs}
               renderItem={({ item }) => (
                 <ItemCardSmall data={item} cart={cart} />

@@ -7,11 +7,13 @@ import {
   Image,
   StatusBar,
   TextInput,
+  RefreshControl,
 } from "react-native";
 import { RangeSlider } from "@react-native-assets/slider";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, {
   Suspense,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -126,79 +128,91 @@ export default function Products() {
     );
   };
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    query("all", { sup: supplier.business }).then(async (productData) =>
+      setAll(productData),
+    );
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
     <>
       <StatusBar animated={true} backgroundColor="#9d9d9de0" />
       <SafeAreaView>
         <CustomHeader />
-        {/* filters */}
-        <View>
-          <View className={`w-full px-8`}>
-            <RangeSlider
-              onSlidingComplete={handlePriceRangeUpdate}
-              range={[priceRange.setmin, priceRange.setmax]} // set the current slider's value
-              minimumValue={minv} // Minimum value
-              maximumValue={maxv} // Maximum value
-              step={1} // The step for the slider (0 means that the slider will handle any decimal value within the range [min, max])
-              minimumRange={parseFloat(((maxv - minv) * 0.1).toFixed(2))} // Minimum range between the two thumbs (defaults as "step")
-              outboundColor="white" // The track color outside the current range value
-              inboundColor="#EAEAEA" // The track color inside the current range value
-              thumbTintColor="orange" // The color of the slider's thumb
-              enabled={true} // If false, the slider won't respond to touches anymore
-              trackHeight={15} // The track's height in pixel
-              thumbSize={10} // The thumb's size in pixel
-              slideOnTap={true} // If true, touching the slider will update it's value. No need to slide the thumb.
-              // onValueChange={handlePriceRangeUpdate} // Called each time the value changed. The type is (range: [number, number]) => void
-              CustomThumb={CustomThumb} // Provide your own component to render the thumb. The type is a component: ({ value: number, thumb: 'min' | 'max' }) => JSX.Element
+
+          {/* filters */}
+          <View>
+            <View className={`w-full px-8`}>
+              <RangeSlider
+                onSlidingComplete={handlePriceRangeUpdate}
+                range={[priceRange.setmin, priceRange.setmax]} // set the current slider's value
+                minimumValue={minv} // Minimum value
+                maximumValue={maxv} // Maximum value
+                step={1} // The step for the slider (0 means that the slider will handle any decimal value within the range [min, max])
+                minimumRange={parseFloat(((maxv - minv) * 0.1).toFixed(2))} // Minimum range between the two thumbs (defaults as "step")
+                outboundColor="white" // The track color outside the current range value
+                inboundColor="#EAEAEA" // The track color inside the current range value
+                thumbTintColor="orange" // The color of the slider's thumb
+                enabled={true} // If false, the slider won't respond to touches anymore
+                trackHeight={15} // The track's height in pixel
+                thumbSize={10} // The thumb's size in pixel
+                slideOnTap={true} // If true, touching the slider will update it's value. No need to slide the thumb.
+                // onValueChange={handlePriceRangeUpdate} // Called each time the value changed. The type is (range: [number, number]) => void
+                CustomThumb={CustomThumb} // Provide your own component to render the thumb. The type is a component: ({ value: number, thumb: 'min' | 'max' }) => JSX.Element
+              />
+            </View>
+
+            <FlatList
+              className={`w-[100vw] flex-row p-2`}
+              horizontal={true}
+              data={[
+                { Ambient: "id123" },
+                { Chilled: "id456" },
+                { Frozen: "id789" },
+              ]}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    filters.type === `${Object.keys(item)}`
+                      ? setFilters((prev) => ({
+                          ...prev,
+                          type: false,
+                        }))
+                      : setFilters((prev) => ({
+                          ...prev,
+                          type: `${Object.keys(item)}`,
+                        }));
+                  }}
+                  className={`${
+                    filters.type === `${Object.keys(item)}`
+                      ? " bg-orange-400"
+                      : " bg-orange-200"
+                  }  mr-2 flex-1 rounded-xl px-12 py-2`}
+                >
+                  <Text>{Object.keys(item)}</Text>
+                </TouchableOpacity>
+              )}
+              keyExtractor={(type) => Object.values(type)}
+            />
+
+            <TextInput
+              onChangeText={(text) => {
+                setFilters((prev) => ({
+                  ...prev,
+                  name: text,
+                }));
+              }}
+              value={filters.name}
+              placeholder="Search by name..."
+              className={`mx-2 rounded-xl bg-white px-4 py-2`}
             />
           </View>
-
-          <FlatList
-            className={`w-[100vw] flex-row p-2`}
-            horizontal={true}
-            data={[
-              { Ambient: "id123" },
-              { Chilled: "id456" },
-              { Frozen: "id789" },
-            ]}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => {
-                  filters.type === `${Object.keys(item)}`
-                    ? setFilters((prev) => ({
-                        ...prev,
-                        type: false,
-                      }))
-                    : setFilters((prev) => ({
-                        ...prev,
-                        type: `${Object.keys(item)}`,
-                      }));
-                }}
-                className={`${
-                  filters.type === `${Object.keys(item)}`
-                    ? " bg-orange-400"
-                    : " bg-orange-200"
-                }  mr-2 flex-1 rounded-xl px-12 py-2`}
-              >
-                <Text>{Object.keys(item)}</Text>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(type) => Object.values(type)}
-          />
-
-          <TextInput
-            onChangeText={(text) => {
-              setFilters((prev) => ({
-                ...prev,
-                name: text,
-              }));
-            }}
-            value={filters.name}
-            placeholder="Search by name..."
-            className={`mx-2 rounded-xl bg-white px-4 py-2`}
-          />
-        </View>
-
         <Suspense fallback={<Text>Loading...</Text>}>
           <View
             className={`my-2 flex-row items-center justify-between gap-x-2 px-2`}
@@ -291,6 +305,7 @@ export default function Products() {
               Supplier has not added any products.
             </Text>
           )}
+
           <FlatList
             className={`mb-[290px]`}
             data={filteredAll.filter((product) =>
