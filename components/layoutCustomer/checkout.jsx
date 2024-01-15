@@ -22,7 +22,11 @@ import React, {
 import { AppContext } from "../../App";
 import { Calendar } from "react-native-calendars";
 import { query } from "../../api/cmd";
-import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 
 export default function Checkout() {
   const { user, supplier, all, favs, cart, setAll, setFavs, setCart } =
@@ -138,8 +142,22 @@ export default function Checkout() {
       message: message,
       deliveryDate: new Date(deliveryDay).toLocaleDateString("en-GB"),
       // for future use
+      processed:{
+        confirmed: false,
+        packed: false,
+        shipped: false,
+        invoiced: false,
+        paid: false,
+      },
+      total: cart
+        .reduce(
+          (total, item) => total + (item.price_offer || item.price) * item.qty,
+          0,
+        )
+        .toFixed(2),
       totalProducts: cart.reduce((total, item) => total + item.qty, 0),
       uniqueProducts: cart.reduce((total, item) => total + 1, 0),
+      placedOrder: new Date().toLocaleDateString("en-GB") + " " + new Date().toLocaleTimeString("en-GB"),
     };
 
     await query("addOrder", { order }).then(async (response) => {

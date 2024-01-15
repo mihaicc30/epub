@@ -52,7 +52,7 @@ export default function ItemCardSmall({ data }) {
               parseFloat(data.price_offer) > 0 ? "text-sm line-through" : ""
             }`}
           >
-            £{parseFloat(data.price)}
+            £{parseFloat(data.price).toFixed(2)}
           </Text>
           {parseFloat(data.price_offer).toFixed(2) > 0 && (
             <Text className={`font-[600]`}>

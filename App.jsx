@@ -118,9 +118,9 @@ export default function App() {
                 }
               />
               <Nav4.Screen
-                name="invoices"
+                name="orders"
                 getComponent={() =>
-                  require("./components/layoutSupplier/invoices").default
+                  require("./components/layoutSupplier/orders").default
                 }
               />
               <Nav4.Screen

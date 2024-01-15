@@ -37,7 +37,7 @@ export default function auth() {
         email: "1alemihai25@gmail.com",
         name: "Mega_Supplier",
         phone: "07443399999999",
-        type: "supplier",
+        type: "Supplier",
       });
       setStep(4);
     } else if (type === "Customer") {
@@ -84,6 +84,12 @@ export default function auth() {
     }
   };
 
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     query("getOrders", { supplier: user }).then((res) => setOrders(res));
+  //   }, []),
+  // );
+
   return (
     <>
       <SafeAreaView>
@@ -97,7 +103,12 @@ export default function auth() {
           <View className={`h-100 items-center gap-4 px-4`}>
             <View className={`w-[80%]`}>
               <Text aria-label="email">Email</Text>
-              <TextInput
+              <Text
+                className={` rounded-3xl border-2 border-gray-300/10 bg-gray-200 text-gray-400 px-4 py-2 shadow-lg shadow-black`}
+              >
+                Email...
+              </Text>
+              {/* <TextInput
                 autoComplete="email"
                 className={` rounded-3xl border-2 border-gray-300/10 bg-gray-100 px-4 py-2 shadow-lg shadow-black`}
                 placeholder="Email..."
@@ -105,18 +116,23 @@ export default function auth() {
                 //   setEmail(text);
                 // }}
                 // value={email}
-              />
+              /> */}
             </View>
             <View className={`w-[80%]`}>
               <Text aria-label="password">Password</Text>
-              <TextInput
+              <Text
+                className={` rounded-3xl border-2 border-gray-300/10 bg-gray-200 text-gray-400 px-4 py-2 shadow-lg shadow-black`}
+              >
+                Password...
+              </Text>
+              {/* <TextInput
                 autoComplete="password"
                 className={` rounded-3xl border-2 border-gray-300/10 bg-gray-100 px-4 py-2 shadow-lg shadow-black`}
                 placeholder="Password..."
                 secureTextEntry
                 // value={password}
                 // onChangeText={(text) => setPassword(text)}
-              />
+              /> */}
             </View>
 
             <TouchableOpacity onPress={() => handleLogin("Customer")}>

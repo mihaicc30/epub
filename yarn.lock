@@ -7224,7 +7224,7 @@ prompts@^2.3.2, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@*, prop-types@^15.5.10, prop-types@^15.7.2, prop-types@15.8.1:
+prop-types@*, prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7376,6 +7376,22 @@ react-is@^18.1.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-native-animatable@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.npmjs.org/react-native-animatable/-/react-native-animatable-1.3.3.tgz"
+  integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
+  dependencies:
+    prop-types "^15.7.2"
+
+react-native-btr@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmjs.org/react-native-btr/-/react-native-btr-2.2.1.tgz"
+  integrity sha512-k1SGpV5m7UmAfAKpbWIEHGswAc4+VwD+QBltvwMG9epdE2gfd0Yi7z7hhTwTfEEvwCr9BzwY0MuCJRGxJZ836A==
+  dependencies:
+    react-native-modal "^13.0.1"
+    react-native-radio-buttons-group "^3.0.5"
+    react-native-vector-icons "^10.0.3"
+
 react-native-calendars@^1.1303.0:
   version "1.1303.0"
   resolved "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1303.0.tgz"
@@ -7409,6 +7425,14 @@ react-native-gesture-handler@~2.12.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-modal@^13.0.1:
+  version "13.0.1"
+  resolved "https://registry.npmjs.org/react-native-modal/-/react-native-modal-13.0.1.tgz"
+  integrity sha512-UB+mjmUtf+miaG/sDhOikRfBOv0gJdBU2ZE1HtFWp6UixW9jCk/bhGdHUgmZljbPpp0RaO/6YiMmQSSK3kkMaw==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-animatable "1.3.3"
+
 react-native-paper@^5.12.0:
   version "5.12.0"
   resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-5.12.0.tgz"
@@ -7417,6 +7441,11 @@ react-native-paper@^5.12.0:
     "@callstack/react-theme-provider" "^3.0.9"
     color "^3.1.2"
     use-latest-callback "^0.1.5"
+
+react-native-radio-buttons-group@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/react-native-radio-buttons-group/-/react-native-radio-buttons-group-3.0.5.tgz"
+  integrity sha512-4JQAUJFW2D0txqgktLL1QyXuy6yUWg3r8O2+h1XLUHV9Jby8xnL6IgJsoew3jxXM6uwN+zQcya1wGTRgEB+/KQ==
 
 react-native-reanimated@~3.3.0:
   version "3.3.0"
@@ -7468,7 +7497,7 @@ react-native-web@^0.19.10, react-native-web@>=0.13.4:
     postcss-value-parser "^4.2.0"
     styleq "^0.1.3"
 
-react-native@*, "react-native@>= 0.30.0", react-native@>=0.57, react-native@>=0.61.4, react-native@0.72.6:
+react-native@*, "react-native@>= 0.30.0", react-native@>=0.57, react-native@>=0.61.4, react-native@>=0.65.0, react-native@0.72.6:
   version "0.72.6"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.72.6.tgz"
   integrity sha512-RafPY2gM7mcrFySS8TL8x+TIO3q7oAlHpzEmC7Im6pmXni6n1AuufGaVh0Narbr1daxstw7yW7T9BKW5dpVc2A==
