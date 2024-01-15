@@ -51,7 +51,7 @@ export default function App() {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       () => {
-        if (user.type === "customer") {
+        if (user.type === "Customer") {
           setStep((prevStep) => Math.max(1, prevStep - 1)); // Ensure step is not negative
           return true; // Returning true prevents the default back button behavior
         }

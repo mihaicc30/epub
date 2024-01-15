@@ -15,9 +15,8 @@ import { AppContext } from "../../../App";
 import IM from "./IM";
 import { CustomHeader } from "../Nav/CustomHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRoute } from "@react-navigation/native";
 import { query } from "../../../api/cmd";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function ItemCardBig() {
   const navigation = useNavigation();

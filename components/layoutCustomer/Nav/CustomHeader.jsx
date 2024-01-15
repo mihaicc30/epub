@@ -1,7 +1,8 @@
-import { Image, Text, TouchableOpacity, View , StatusBar } from "react-native";
+import { Image, Text, TouchableOpacity, View, StatusBar } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { AppContext } from "../../../App";
 import { query } from "../../../api/cmd";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export const CustomHeader = () => {
   const { logout, cart, timer, supplier, user } = useContext(AppContext);
@@ -18,7 +19,7 @@ export const CustomHeader = () => {
         // Perform your database update query using the latest cart state
         // ... your database update logic using cart
         // ...
-        console.log("Run db cart update.", new Date().toLocaleTimeString())
+        console.log("Run db cart update.", new Date().toLocaleTimeString());
         query("updateiteminbasket", {
           sup: supplier,
           user: user,
@@ -41,17 +42,15 @@ export const CustomHeader = () => {
 
   return (
     <View className={`w-[100vw] flex-row justify-between`}>
-      <TouchableOpacity
-        className={`m-1 border-b-2 border-red-400 p-1`}
-        accessibilityRole="button"
-      >
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text className={`text-xs text-black`}>Account</Text>
+      <TouchableOpacity className={`m-1 p-1  border-b-[1px] border-b-black/20`} accessibilityRole="button">
+        <View className={`p-1`}>
+          <Text className={`text-black`}>
+            <MaterialCommunityIcons
+              name="account-cog"
+              color="black"
+              style={{ fontSize: 24 }}
+            />
+          </Text>
         </View>
       </TouchableOpacity>
       <Image
@@ -59,18 +58,19 @@ export const CustomHeader = () => {
         className={`h-[50px] w-[50px]`}
       />
       <TouchableOpacity
-        className={`m-1 border-b-2 border-red-400 p-1`}
+        className={`m-1 p-1 border-b-[1px] border-b-black/20`}
         accessibilityRole="button"
         onPress={logout}
         onLongPress={logout}
       >
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text className={`text-xs text-black`}>Logout</Text>
+        <View className={`p-1`}>
+          <Text className={`text-black`}>
+            <MaterialCommunityIcons
+              name="logout-variant"
+              color="black"
+              style={{ fontSize: 24 }}
+            />
+          </Text>
         </View>
       </TouchableOpacity>
     </View>
